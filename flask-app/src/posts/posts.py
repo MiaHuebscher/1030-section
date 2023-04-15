@@ -101,7 +101,7 @@ def get_specific_post(post_id):
 
 # Get information about a posts under a specified price
 @posts.route('/posts/<unit_price>', methods=['GET'])
-def get_specific_post(unit_price):
+def get_inexpensive_posts(unit_price):
     cursor = db.get_db().cursor()
     cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
                     from customers where unit_price <= {0}'.format(unit_price))
