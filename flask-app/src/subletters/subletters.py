@@ -21,7 +21,7 @@ def create_subletter_profile():
 
     # Construct the insert statement
     insert_stmt = 'INSERT INTO subletters (sublett_id, sblett_user, sblett_age, sblett_gender) VALUES ('
-    insert_stmt += str(sublett_id) + '", "' + sblett_user + '", ' + str(sblett_age) + ', "' + sblett_gender + '")'
+    insert_stmt += str(sublett_id) + ', "' + sblett_user + '", ' + str(sblett_age) + ', "' + sblett_gender + '")'
 
     current_app.logger.info(insert_stmt)
 
