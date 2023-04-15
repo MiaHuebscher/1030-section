@@ -6,9 +6,30 @@ from src import db
 messages = Blueprint('messages', __name__)
 
 # Write a message to a sublessor about a specific post
-@messages.route('/messages/<post_id>/<sbless_user>', methods=['POST'])
-def create_message(post_id, sbless_user):
-    pass
+@messages.route('/messages', methods=['POST'])
+def create_message():
+
+    # Access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    post_id = req_data['post_id']
+    sblett_user = req_data['sblett_user']
+    sbless_user = req_data['sbless_user']
+    content = req_data['content']
+
+    # Construct the insert statement
+    insert_stmt = 'INSERT INTO messages (post_id, sblett_user, sbless_user, content) VALUES ('
+    insert_stmt += str(post_id) + ', "' + sblett_user + '", "' + sbless_user + '", "' + content + '")'
+
+    current_app.logger.info(insert_stmt)
+
+    # Execute the query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert_stmt)
+    db.get_db().commit()
+    return 'Success'
 
 @messages.route('/messages/<post_id>/<sblett_user>', methods=['GET'])
 def get_messages(post_id, sblett_user):
