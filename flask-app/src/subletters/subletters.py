@@ -35,6 +35,7 @@ def create_subletter_profile():
 # Delete a sublettor profile from the database
 @subletters.route('/subletters/<sblett_id>', methods=['DELETE'])
 def delete_subletter(sblett_id):
+    pass
     
 
 # Update a sublettor profile in the database
