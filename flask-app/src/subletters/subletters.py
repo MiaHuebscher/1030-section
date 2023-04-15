@@ -8,20 +8,20 @@ subletters = Blueprint('subletters', __name__)
 # Add a sublettor profile to the database
 @subletters.route('/subletters', methods=['POST'])
 def create_subletter_profile():
-    
+
     # Access json data from request object
     current_app.logger.info('Processing form data')
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    prod_name = req_data['product_name']
-    prod_description = req_data['product_description']
-    prod_price = req_data['product_listprice']
-    category = req_data['product_category']
+    sublett_id = req_data['sublett_id']
+    sblett_user = req_data['sblett_user']
+    sblett_age = req_data['sblett_age']
+    sblett_gender = req_data['sblett_gender']
 
     # Construct the insert statement
-    insert_stmt = 'INSERT INTO products (product_name, description, category, list_price) VALUES ("'
-    insert_stmt += prod_name + '", "' + prod_description + '", "' + category + '", ' + str(prod_price) + ')'
+    insert_stmt = 'INSERT INTO subletters (sublett_id, sblett_user, sblett_age, sblett_gender) VALUES ('
+    insert_stmt += str(sublett_id) + '", "' + sblett_user + '", ' + str(sblett_age) + ', "' + sblett_gender + '")'
 
     current_app.logger.info(insert_stmt)
 
@@ -29,12 +29,13 @@ def create_subletter_profile():
     cursor = db.get_db().cursor()
     cursor.execute(insert_stmt)
     db.get_db().commit()
+
     return 'Success'
 
 # Delete a sublettor profile from the database
 @subletters.route('/subletters/<sblett_id>', methods=['DELETE'])
 def delete_subletter(sblett_id):
-    pass
+    
 
 # Update a sublettor profile in the database
 @subletters.route('/subletters/<sblett_id>', methods=['PUT'])
