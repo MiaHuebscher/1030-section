@@ -27,7 +27,7 @@ def create_app():
     # Add a default route
     @app.route("/")
     def welcome():
-        return "<h1>Welcome to the 3200 boilerplate app</h1>"
+        return "<h1>Hello from the sublet apartment app team: Mia, Krina, Launna, and Jakob!</h1>"
 
     # Import the various routes
     from src.views import views
@@ -35,12 +35,14 @@ def create_app():
     from src.products.products  import products
     from src.subletters import subletters
     from src.messages import messages
+    from src.posts import posts
 
     # Register the routes that we just imported so they can be properly handled
     app.register_blueprint(views,       url_prefix='/v')
     app.register_blueprint(customers,   url_prefix='/c')
-    app.register_blueprint(products,    url_prefix='/p')
+    app.register_blueprint(products,    url_prefix='/pr')
     app.register_blueprint(subletters, url_prefix='/st')
     app.register_blueprint(messages, url_prefix='/m')
+    app.register_blueprint(posts, url_prefix = '/po')
 
     return app
