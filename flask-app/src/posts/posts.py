@@ -82,6 +82,7 @@ def get_posts():
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
+    return cursor.description
 
 # Get information about a specific posts
 @posts.route('/posts/<post_id>', methods=['GET'])
