@@ -43,6 +43,6 @@ def create_app():
     app.register_blueprint(products, url_prefix='/pr')
     app.register_blueprint(subletters, url_prefix='/st')
     app.register_blueprint(messages, url_prefix='/m')
-    app.register_blueprint(posts, url_prefix = '/po')
+    app.register_blueprint(posts, url_prefix = '/p')
 
     return app
