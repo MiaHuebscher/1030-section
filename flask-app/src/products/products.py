@@ -58,3 +58,49 @@ def get_most_pop_products():
         json_data.append(dict(zip(column_headers, row)))
 
     return jsonify(json_data)
+
+@products.route('/product', methods=['POST'])
+def add_new_product():
+    # Access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    prod_name = req_data['product_name']
+    prod_description = req_data['product_description']
+    prod_price = req_data['product_listprice']
+    category = req_data['product_category']
+
+    # Construct the insert statement
+    insert_stmt = 'INSERT INTO products (product_name, description, category, list_price) VALUES ("'
+    insert_stmt += prod_name + '", "' + prod_description + '", "' + category + '", ' + str(prod_price) + ')'
+
+    current_app.logger.info(insert_stmt)
+
+    # Execute the query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert_stmt)
+    db.get_db().commit()
+    return 'Success'
+
+@products.route('/categories', methods= ['GET'])
+def get_all_categories():
+    query = '''
+        SELECT DISTINCT category AS label, category as value
+        FROM products
+        WHERE category IS NOT NULL
+        ORDER BY category
+        '''
+    
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+
+    json_data = []
+
+    column_headers = [x[0] for x in cursor.description]
+    theData = cursor.fetchall()
+
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
