@@ -155,8 +155,8 @@ def update_post(post_id):
     # unit_price = req_data['unit_price']
 
     if post_dscrptn != '': 
-        update_post_dscrptn = 'UPDATE sublessors SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
-        update_post_dscrptn += 'WHERE post_dscrptn =' + post_dscrptn
+        update_post_dscrptn = 'UPDATE posts SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
+        update_post_dscrptn += 'WHERE post_id =' + str(post_id)
 
         current_app.logger.info(update_post_dscrptn)
 
@@ -185,12 +185,7 @@ def update_post(post_id):
 @sublessors.route('/posts/<post_id>', methods=['DELETE'])
 def delete_specific_post(post_id):
 
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
-    delete_stmt = 'DELETE FROM subletters WHERE sublett_id = ' + str(post_id)
+    delete_stmt = 'DELETE FROM posts WHERE post_id = ' + str(post_id)
 
     current_app.logger.info(delete_stmt)
 
@@ -206,12 +201,7 @@ def delete_specific_post(post_id):
 @sublessors.route('/posts/sublessor/<sbless_id>', methods=['DELETE'])
 def delete_posts_by_sbless(sbless_id):
 
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
-    delete_stmt = 'DELETE FROM subletters WHERE sublett_id = ' + str(sbless_id)
+    delete_stmt = 'DELETE FROM posts WHERE sbless_id = ' + str(sbless_id)
 
     current_app.logger.info(delete_stmt)
 
