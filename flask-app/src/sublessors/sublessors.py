@@ -143,7 +143,7 @@ def get_inexpensive_posts(unit_price):
 
 
 # Update a sublessor profile in the database
-@sublessors.route('/posts/<post_id>', methods=['PUT'])
+@sublessors.route('/posts/post_dscrptn/<post_id>', methods=['PUT'])
 def update_post(post_id):
 
     # Access json data from request object
@@ -151,29 +151,8 @@ def update_post(post_id):
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    sbless_id = req_data['sbless_id']
     post_dscrptn = req_data['post_dscrptn']
-    unit_price = req_data['unit_price']
-    emp_id = req_data['emp_id']
-    street = req_data['street']
-    city = req_data['city']
-    zip_code = req_data['zip_code']
-    move_in = req_data['move_in']
-    move_out = req_data['move_out']
-
-
-    if sbless_id != '': 
-        update_sbless_id = 'UPDATE sublessors SET sbless_id = '  + str(sbless_id)
-        update_sbless_id += 'WHERE sbless_id =' + str(sbless_id)
-
-        current_app.logger.info(update_sbless_id)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_sbless_id)
-        db.get_db().commit()
-
-        return 'Success'
+    # unit_price = req_data['unit_price']
 
     if post_dscrptn != '': 
         update_post_dscrptn = 'UPDATE sublessors SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
@@ -188,97 +167,18 @@ def update_post(post_id):
 
         return 'Success'
 
-    if unit_price != '': 
-        update_unit_price = 'UPDATE sublessors SET unit_price = '  + str(unit_price)
-        update_unit_price += 'WHERE unit_price =' + str(unit_price)
+    # if unit_price != '': 
+    #     update_unit_price = 'UPDATE sublessors SET unit_price = '  + str(unit_price)
+    #     update_unit_price += 'WHERE unit_price =' + str(unit_price)
 
-        current_app.logger.info(update_unit_price)
+    #     current_app.logger.info(update_unit_price)
 
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_unit_priced)
-        db.get_db().commit()
+    #     # Execute the query
+    #     cursor = db.get_db().cursor()
+    #     cursor.execute(update_unit_priced)
+    #     db.get_db().commit()
 
-        return 'Success'
-
-    if emp_id != '': 
-        update_emp_id = 'UPDATE sublessors SET emp_id = '  + str(emp_id)
-        update_emp_id += 'WHERE emp_id =' + str(emp_id)
-
-        current_app.logger.info(update_emp_id)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_emp_id)
-        db.get_db().commit()
-
-        return 'Success'
-
-    if street != '': 
-        update_street = 'UPDATE sublessors SET street = '  + '"' + street + '"' 
-        update_street += 'WHERE street =' + street
-
-        current_app.logger.info(update_street)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_street)
-        db.get_db().commit()
-
-        return 'Success'
-
-    if city != '': 
-        update_city = 'UPDATE sublessors SET city = '  + '"' + city + '"' 
-        update_city += 'WHERE city =' + city
-
-        current_app.logger.info(update_city)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_city)
-        db.get_db().commit()
-
-        return 'Success'
-
-    if zip_code != '': 
-        update_zip_code = 'UPDATE sublessors SET zip_code = '  + '"' + zip_code + '"' 
-        update_zip_code += 'WHERE zip_code =' + zip_code
-
-        current_app.logger.info(update_zip_code)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_zip_code)
-        db.get_db().commit()
-
-        return 'Success'
-
-    if move_in != '': 
-        update_move_in = 'UPDATE sublessors SET move_in = '  + '"' + move_in + '"' 
-        update_move_in += 'WHERE zip_code =' + move_in
-
-        current_app.logger.info(update_move_in)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_move_in)
-        db.get_db().commit()
-
-        return 'Success'
-
-    if move_out != '': 
-        update_move_out = 'UPDATE sublessors SET move_out = '  + '"' + move_out + '"' 
-        update_move_out += 'WHERE move_out =' + move_out
-
-        current_app.logger.info(update_move_out)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_move_out)
-        db.get_db().commit()
-
-        return 'Success'
-
+    #     return 'Success'
 
 
 # Delete a specific post that a sublessor wants to delete
@@ -303,7 +203,7 @@ def delete_specific_post(post_id):
 
 
 # Delete a specific post that a sublessor wants to delete
-@sublessors.route('/posts/<sbless_id>', methods=['DELETE'])
+@sublessors.route('/posts/sublessor/<sbless_id>', methods=['DELETE'])
 def delete_posts_by_sbless(sbless_id):
 
     # Access json data from request object
