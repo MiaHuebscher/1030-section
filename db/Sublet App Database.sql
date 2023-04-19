@@ -2,6 +2,8 @@
 create database Sublet;
 use Sublet;
 
+select * from posts;
+
 # Create the tables of the database
 create table sublessors (
     sbless_id bigint unique not null,
@@ -3678,3 +3680,6 @@ values (101, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE);
 insert into amenities (apartment_id, parking, rec_center, mail_room, guard,
                        laundry, wifi, electricity, hot_water)
 values (102, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, TRUE);
+
+
+SHow tables;
