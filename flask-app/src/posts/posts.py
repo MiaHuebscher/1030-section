@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
+
 posts = Blueprint('posts', __name__)
 
 # Create a post about a subletting opportunity
