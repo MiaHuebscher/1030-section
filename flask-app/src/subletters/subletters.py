@@ -49,63 +49,29 @@ def delete_subletter(sblett_id):
     return 'Success'
 
 
-# Update a sublettor profile in the database
+# Update a sublettor username in the database
 @subletters.route('/subletters/<sblett_id>', methods=['PUT'])
-def update_subletter_profile(sblett_id):
+def update_subletter_username(sblett_id):
 
     # Access json data from request object
     current_app.logger.info('Processing form data')
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    if 'sblett_user' in req_data:
-        sblett_user = req_data['sblett_user']
-    if 'sblett_age' in req_data:
-        sblett_age = req_data['sblett_age']
-    if 'sblett_gender' in req_data:
-        sblett_gender = req_data['sblett_gender']
+    sblett_user = req_data['sblett_user']
 
-    if sblett_user: 
-        update_user_stmt = 'UPDATE subletters SET sblett_user = ' + '"' + sblett_user + '"' 
-        update_user_stmt += 'WHERE sublett_id =' + str(sblett_id)
+    update_user_stmt = 'UPDATE subletters SET sblett_user = ' + '"' + sblett_user + '"' 
+    update_user_stmt += 'WHERE sublett_id =' + str(sblett_id)
 
-        current_app.logger.info(update_user_stmt)
+    current_app.logger.info(update_user_stmt)
 
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_user_stmt)
-        db.get_db().commit()
+    # Execute the query
+    cursor = db.get_db().cursor()
+    cursor.execute(update_user_stmt)
+    db.get_db().commit()
 
-        return 'Success'
+    return 'Success'
 
-    if sblett_age: 
-        update_age_stmt = 'UPDATE subletters SET sblett_age = ' + str(sblett_age)
-        update_age_stmt += 'WHERE sublett_id =' + str(sblett_id)
-
-        current_app.logger.info(update_age_stmt)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_age_stmt)
-        db.get_db().commit()
-
-        return 'Success'
-
-        
-    if sblett_gender: 
-        update_gender_stmt = 'UPDATE subletters SET sblett_gender = ' + '"' + sblett_gender + '"'
-        update_gender_stmt += 'WHERE sublett_id =' + str(sblett_id)
-
-        current_app.logger.info(update_stmt)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_gender_stmt)
-        db.get_db().commit()
-
-
-        return 'Success'
-    
 # Send a messsage to another person on the app
 @subletters.route('/messages', methods=['POST'])
 def create_message():
@@ -171,7 +137,8 @@ def get_posts():
     cursor = db.get_db().cursor()
 
     # Use cursor to query the database for a list of products
-    cursor.execute('SELECT post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out FROM posts')
+    cursor.execute('SELECT post_id, sbless_user, post_dscrptn, unit_price, emp_id, street, city, \
+       zip_code, move_in, move_out FROM posts join sublessors using (sbless_id)')
 
     # grab the column headers from the returned data
     column_headers = [x[0] for x in cursor.description]
@@ -194,8 +161,8 @@ def get_posts():
 @subletters.route('/posts/<post_id>', methods=['GET'])
 def get_specific_post(post_id):
     cursor = db.get_db().cursor()
-    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
-                    from posts where post_id = {0}'.format(post_id))
+    cursor.execute('select post_id, sbless_user, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
+                    from posts join sublessors using (sbless_id) where post_id = {0}'.format(post_id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -211,8 +178,8 @@ def get_specific_post(post_id):
 def get_inexpensive_posts(unit_price):
     cursor = db.get_db().cursor()
 
-    query = "select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
-                    from posts where unit_price <= {}".format(unit_price)
+    query = "select post_id, sbless_user, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
+                    from posts join sublessors using (sbless_id) where unit_price <= {}".format(unit_price)
     
     cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
