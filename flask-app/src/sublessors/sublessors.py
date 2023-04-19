@@ -32,16 +32,6 @@ def create_post():
     roommate_name = req_data['roommate_name']
     roommate_age = req_data['roommate_age']
 
-    # apartment_id = req_data['apartment_id']
-    # parking = req_data['parking']
-    # rec_center = req_data['rec_center']
-    # mail_room = req_data['mail_room']
-    # guard = req_data['guard']
-    # laundry = req_data['laundry']
-    # wifi = req_data['wifi']
-    # electricity = req_data['electricity']
-    # hot_water = req_data['hot_water']
-
     # Construct the insert statements for each table
     posts_insert_stmt = 'INSERT INTO posts \
         (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
@@ -60,18 +50,8 @@ def create_post():
     roommates_insert_stmt = 'INSERT INTO roommates (roommate_gender, post_id, roommate_name, roommate_age) VALUES (%s, %s, %s, %s)'
     roommates_insert_params = (roommate_gender, post_id, roommate_name, roommate_age)
 
-    # # # photos_insert_stmt = ''
-    # # # photos_insert_stmt += ''
-
-    # amenities_insert_stmt = 'INSERT INTO amenities \
-    #     (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-    # amenities_insert_params = (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water)
-
     current_app.logger.info(ap_units_insert_stmt)
     current_app.logger.info(roommates_insert_stmt)
-    # # current_app.logger.info(photos_insert_stmt)
-    # current_app.logger.info(amenities_insert_stmt)
-
     
     # Execute the query
     cursor.execute(ap_units_insert_stmt, ap_units_insert_params)
@@ -151,8 +131,7 @@ def update_post(post_id):
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    post_dscrptn = req_data['post_dscrptn']
-    # unit_price = req_data['unit_price']
+    post_dscrptn = req_data['post_dscrptn2']
 
     if post_dscrptn != '': 
         update_post_dscrptn = 'UPDATE posts SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
@@ -166,19 +145,6 @@ def update_post(post_id):
         db.get_db().commit()
 
         return 'Success'
-
-    # if unit_price != '': 
-    #     update_unit_price = 'UPDATE sublessors SET unit_price = '  + str(unit_price)
-    #     update_unit_price += 'WHERE unit_price =' + str(unit_price)
-
-    #     current_app.logger.info(update_unit_price)
-
-    #     # Execute the query
-    #     cursor = db.get_db().cursor()
-    #     cursor.execute(update_unit_priced)
-    #     db.get_db().commit()
-
-    #     return 'Success'
 
 
 # Delete a specific post that a sublessor wants to delete
