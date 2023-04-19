@@ -57,7 +57,7 @@ def update_subletter_username(sblett_id):
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    sblett_user = req_data['sblett_user']
+    sblett_user = req_data['new_sblett_user']
 
     update_user_stmt = 'UPDATE subletters SET sblett_user = ' + '"' + sblett_user + '"' 
     update_user_stmt += 'WHERE sublett_id =' + str(sblett_id)
