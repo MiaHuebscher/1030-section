@@ -53,83 +53,7 @@ def delete_subletter(sblett_id):
 
     return 'Success'
 
-# Update a sublettor username in the database
-@subletters.route('/subletters/<username>/<sblett_id>', methods=['PUT'])
-def update_subletter_username(username, sblett_id):
 
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
-    #sblett_user = req_data['sblett_user']
-
-    if username != '': 
-        update_user_stmt = 'UPDATE subletters SET sblett_user = ' + '"' + username + '"' 
-        update_user_stmt += 'WHERE sublett_id =' + str(sblett_id)
-
-        current_app.logger.info(update_user_stmt)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_user_stmt)
-        db.get_db().commit()
-
-        return 'Success'
-    
-
-# Update a sublettor age in the database
-@subletters.route('/subletters/<age>/<sblett_id>', methods=['PUT'])
-def update_subletter_profile(age, sblett_id):
-
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
-    #sblett_age = req_data['sblett_age']
-
-    if age != '': 
-        update_age_stmt = 'UPDATE subletters SET sblett_age = ' + str(age)
-        update_age_stmt += 'WHERE sublett_id =' + str(sblett_id)
-
-        current_app.logger.info(update_age_stmt)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_age_stmt)
-        db.get_db().commit()
-
-        return 'Success'
-
-
-# Update a sublettor gender in the database
-@subletters.route('/subletters/<gender>/<sblett_id>', methods=['PUT'])
-def update_subletter_profile(gender, sblett_id):
-
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
-
-    #sblett_gender = req_data['sblett_gender']
-        
-    if gender != '': 
-        update_gender_stmt = 'UPDATE subletters SET sblett_gender = ' + '"' + gender + '"'
-        update_gender_stmt += 'WHERE sublett_id =' + str(sblett_id)
-
-        current_app.logger.info(update_gender_stmt)
-
-        # Execute the query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_gender_stmt)
-        db.get_db().commit()
-
-        return 'Success'
-
-
-"""
 # Update a sublettor profile in the database
 @subletters.route('/subletters/<sblett_id>', methods=['PUT'])
 def update_subletter_profile(sblett_id):
@@ -183,5 +107,3 @@ def update_subletter_profile(sblett_id):
 
 
         return 'Success'
-
-"""
