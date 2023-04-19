@@ -32,15 +32,15 @@ def create_post():
     roommate_name = req_data['roommate_name']
     roommate_age = req_data['roommate_age']
 
-    apartment_id = req_data['apartment_id']
-    parking = req_data['parking']
-    rec_center = req_data['rec_center']
-    mail_room = req_data['mail_room']
-    guard = req_data['guard']
-    laundry = req_data['laundry']
-    wifi = req_data['wifi']
-    electricity = req_data['electricity']
-    hot_water = req_data['hot_water']
+    # apartment_id = req_data['apartment_id']
+    # parking = req_data['parking']
+    # rec_center = req_data['rec_center']
+    # mail_room = req_data['mail_room']
+    # guard = req_data['guard']
+    # laundry = req_data['laundry']
+    # wifi = req_data['wifi']
+    # electricity = req_data['electricity']
+    # hot_water = req_data['hot_water']
 
     # Construct the insert statements for each table
     posts_insert_stmt = 'INSERT INTO posts \
@@ -63,21 +63,21 @@ def create_post():
     # # # photos_insert_stmt = ''
     # # # photos_insert_stmt += ''
 
-    amenities_insert_stmt = 'INSERT INTO amenities \
-        (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-    amenities_insert_params = (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water)
+    # amenities_insert_stmt = 'INSERT INTO amenities \
+    #     (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    # amenities_insert_params = (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water)
 
     current_app.logger.info(ap_units_insert_stmt)
     current_app.logger.info(roommates_insert_stmt)
     # # current_app.logger.info(photos_insert_stmt)
-    current_app.logger.info(amenities_insert_stmt)
+    # current_app.logger.info(amenities_insert_stmt)
 
     
     # Execute the query
     cursor.execute(ap_units_insert_stmt, ap_units_insert_params)
     cursor.execute(roommates_insert_stmt, roommates_insert_params)
     # # cursor.execute(photos_insert_stmt)
-    cursor.execute(amenities_insert_stmt, amenities_insert_params)
+    # cursor.execute(amenities_insert_stmt, amenities_insert_params)
     db.get_db().commit()
     return 'Success'
 
