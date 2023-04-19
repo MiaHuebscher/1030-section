@@ -37,13 +37,8 @@ def create_subletter_profile():
 @subletters.route('/subletters/<sblett_id>', methods=['DELETE'])
 def delete_subletter(sblett_id):
 
-    # Access json data from request object
-    current_app.logger.info('Processing form data')
-    req_data = request.get_json()
-    current_app.logger.info(req_data)
-
+    # Create and log the delete statement
     delete_stmt = 'DELETE FROM subletters WHERE sublett_id = ' + str(sblett_id)
-
     current_app.logger.info(delete_stmt)
 
     # Execute the query
@@ -63,11 +58,14 @@ def update_subletter_profile(sblett_id):
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    sblett_user = req_data['sblett_user']
-    sblett_age = req_data['sblett_age']
-    sblett_gender = req_data['sblett_gender']
+    if 'sblett_user' in req_data:
+        sblett_user = req_data['sblett_user']
+    if 'sblett_age' in req_data:
+        sblett_age = req_data['sblett_age']
+    if 'sblett_gender' in req_data:
+        sblett_gender = req_data['sblett_gender']
 
-    if sblett_user != '': 
+    if sblett_user: 
         update_user_stmt = 'UPDATE subletters SET sblett_user = ' + '"' + sblett_user + '"' 
         update_user_stmt += 'WHERE sublett_id =' + str(sblett_id)
 
@@ -80,7 +78,7 @@ def update_subletter_profile(sblett_id):
 
         return 'Success'
 
-    if sblett_age != '': 
+    if sblett_age: 
         update_age_stmt = 'UPDATE subletters SET sblett_age = ' + str(sblett_age)
         update_age_stmt += 'WHERE sublett_id =' + str(sblett_id)
 
@@ -94,7 +92,7 @@ def update_subletter_profile(sblett_id):
         return 'Success'
 
         
-    if sblett_gender != '': 
+    if sblett_gender: 
         update_gender_stmt = 'UPDATE subletters SET sblett_gender = ' + '"' + sblett_gender + '"'
         update_gender_stmt += 'WHERE sublett_id =' + str(sblett_id)
 
@@ -143,7 +141,7 @@ def get_messages(post_id, sblett_user):
 
     # Use cursor to query the database for a list of products
     cursor.execute('select post_id, sbless_user, sblett_user, content from messages \
-                   where post_id = {0} and sblett_user = {}'.format(post_id, sblett_user))
+                   where post_id = {0} and sblett_user = {1}'.format(post_id, sblett_user))
     
     # Grab the column headers from the returned data
     row_headers = [x[0] for x in cursor.description]
@@ -211,9 +209,13 @@ def get_specific_post(post_id):
 # Get information about a posts under a specified price
 @subletters.route('/posts/<unit_price>', methods=['GET'])
 def get_inexpensive_posts(unit_price):
+    '''
     cursor = db.get_db().cursor()
-    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
-                    from customers where unit_price <= {0}'.format(unit_price))
+
+    query = "select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
+                    from posts where unit_price <= {}".format(unit_price)
+    
+    cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -222,4 +224,5 @@ def get_inexpensive_posts(unit_price):
     the_response = make_response(jsonify(json_data))
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
-    return the_response
+    '''
+    return 'success'
