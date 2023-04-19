@@ -207,9 +207,8 @@ def get_specific_post(post_id):
     return the_response
 
 # Get information about a posts under a specified price
-@subletters.route('/posts/<unit_price>', methods=['GET'])
+@subletters.route('/postsunder/<unit_price>', methods=['GET'])
 def get_inexpensive_posts(unit_price):
-    '''
     cursor = db.get_db().cursor()
 
     query = "select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
@@ -224,5 +223,4 @@ def get_inexpensive_posts(unit_price):
     the_response = make_response(jsonify(json_data))
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
-    '''
-    return 'success'
+    return the_response
