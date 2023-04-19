@@ -48,7 +48,6 @@ def delete_subletter(sblett_id):
 
     return 'Success'
 
-
 # Update a sublettor username in the database
 @subletters.route('/subletters/<sblett_id>', methods=['PUT'])
 def update_subletter_username(sblett_id):
