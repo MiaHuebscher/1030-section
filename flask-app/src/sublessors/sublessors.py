@@ -322,7 +322,7 @@ def delete_posts_by_sbless(sbless_id):
 
     return 'Success'
 
-
+#jakob
 @sublessors.route('/reviews/review_content/<sbless_user>', methods=['GET']) #question about get
 def get_reviews(sbless_user):
    # Get a cursor object from the database
@@ -373,23 +373,83 @@ def update_lease_profile(lease_id):
    rent = req_data['rent']
    sbless_id = req_data['sbless_id']
 
+   if lease_end_date != '': 
+        update_lease_end_date = 'UPDATE leases SET lease_end_date = '  + str(lease_end_date)
+        update_lease_end_date += 'WHERE lease_id =' + str(lease_id)
 
-   # Construct the insert statement
-   insert_stmt = 'UPDATE leases SET (lease_end_date, lease_id,lord_id, lease_start_date, rent, sbless_id) VALUES ('
-   insert_stmt += str(lease_end_date) + ', "' + lease_id + '", ' + lord_id + ', "' + str(lease_start_date)
-   + ', "' + rent + ', "' + sbless_id + '")'
+        current_app.logger.info(update_lease_end_date)
 
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_lease_end_date)
+        db.get_db().commit()
 
-   current_app.logger.info(insert_stmt)
+        return 'Success'
 
+   if lease_id != '': 
+        update_lease_id = 'UPDATE leases SET lease_id = '  + '"' + lease_id + '"' 
+        update_lease_id += 'WHERE lease_id =' + lease_id
 
-   # Execute the query
-   cursor = db.get_db().cursor()
-   cursor.execute(insert_stmt)
-   db.get_db().commit()
+        current_app.logger.info(update_lease_id)
 
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_lease_id)
+        db.get_db().commit()
 
-   return 'Success'
+        return 'Success'
+
+   if lord_id != '': 
+        update_lord_id = 'UPDATE leases SET lord_id = '  + str(lord_id)
+        update_lord_id += 'WHERE lease_id =' + str(lease_id)
+
+        current_app.logger.info(update_lord_id)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_lord_id)
+        db.get_db().commit()
+
+        return 'Success'
+
+   if lease_start_date != '': 
+        update_lease_start_date = 'UPDATE leases SET lease_start_date = '  + str(lease_start_date)
+        update_lease_start_date += 'WHERE lease_id =' + str(lease_id)
+
+        current_app.logger.info(update_lease_start_date)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_lease_start_date)
+        db.get_db().commit()
+
+        return 'Success'
+
+   if rent != '': 
+        update_rent = 'UPDATE leases SET rent = '  + '"' + str(rent) + '"' 
+        update_rent += 'WHERE lease_id =' + str(lease_id)
+
+        current_app.logger.info(update_rent)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_rent)
+        db.get_db().commit()
+
+        return 'Success'
+
+   if sbless_id != '': 
+        update_sbless_id = 'UPDATE leases SET sbless_id = '  + '"' + sbless_id + '"' 
+        update_sbless_id += 'WHERE lease_id =' + str(lease_id)
+
+        current_app.logger.info(update_sbless_id)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_sbless_id)
+        db.get_db().commit()
+
+        return 'Success'
 
 
 @sublessors.route('/leases/<sbless_id>', methods=['POST'])
