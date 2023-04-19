@@ -32,12 +32,14 @@ def create_app():
     # Import the various routes
     from src.views import views
     from src.subletters.subletters import subletters
+    from src.sublessors.sublessors import sublessors
     from src.messages.messages import messages
     from src.posts.posts import posts
 
     # Register the routes that we just imported so they can be properly handled
     app.register_blueprint(views, url_prefix='/v')
     app.register_blueprint(subletters, url_prefix='/st')
+    app.register_blueprint(sublessors, url_prefix='/sl')
     app.register_blueprint(messages, url_prefix='/m')
     app.register_blueprint(posts, url_prefix = '/p')
 
