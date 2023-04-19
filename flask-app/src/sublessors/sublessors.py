@@ -16,45 +16,312 @@ def create_post():
     sbless_id = req_data['sbless_id']
     post_dscrptn = req_data['post_dscrptn']
     unit_price = req_data['unit_price']
-    emp_id = None
+    emp_id = req_data['emp_id']
     street = req_data['street']
     city = req_data['city']
     zip_code = req_data['zip_code']
     move_in = req_data['move_in']
     move_out = req_data['move_out']
 
+    kitchen = req_data['kitchen']
+    living_room = req_data['living_room']
+    num_bedroom = req_data['num_bedroom']
+    num_bathroom = req_data['num_bathroom']
+
+    roommate_gender = req_data['roommate_gender']
+    roommate_name = req_data['roommate_name']
+    roommate_age = req_data['roommate_age']
+
+    apartment_id = req_data['apartment_id']
+    parking = req_data['parking']
+    rec_center = req_data['rec_center']
+    mail_room = req_data['mail_room']
+    guard = req_data['guard']
+    laundry = req_data['laundry']
+    wifi = req_data['wifi']
+    electricity = req_data['electricity']
+    hot_water = req_data['hot_water']
+
     # Construct the insert statements for each table
     posts_insert_stmt = 'INSERT INTO posts \
-        (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out) VALUES ('
-    posts_insert_stmt += str(post_id) + ', "' + sblett_user + '", "' + sbless_user + '", "' + content + '")'
-
-    ap_units_insert_stmt = ''
-    ap_units_insert_stmt += ''
-
-    roommates_insert_stmt = ''
-    roommates_insert_stmt += ''
-
-    photos_insert_stmt = ''
-    photos_insert_stmt += ''
-
-    amenities_insert_stmt = ''
-    amenities_insert_stmt += ''
-
+        (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    posts_insert_params = (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out)
+  
     current_app.logger.info(posts_insert_stmt)
+    cursor = db.get_db().cursor()
+    # Execute the query
+    cursor.execute(posts_insert_stmt, posts_insert_params)
+    post_id = cursor.lastrowid
+
+    ap_units_insert_stmt = 'INSERT INTO apartment_units \
+        (kitchen, living_room, num_bedroom, num_bathroom, post_id) VALUES (%s, %s, %s, %s, %s)'
+    ap_units_insert_params = (kitchen, living_room, num_bedroom, num_bathroom, post_id)
+
+    roommates_insert_stmt = 'INSERT INTO roommates (roommate_gender, post_id, roommate_name, roommate_age) VALUES (%s, %s, %s, %s)'
+    roommates_insert_params = (roommate_gender, post_id, roommate_name, roommate_age)
+
+    # # # photos_insert_stmt = ''
+    # # # photos_insert_stmt += ''
+
+    amenities_insert_stmt = 'INSERT INTO amenities \
+        (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+    amenities_insert_params = (apartment_id, parking, rec_center, mail_room, guard, laundry, wifi, electricity, hot_water)
+
     current_app.logger.info(ap_units_insert_stmt)
     current_app.logger.info(roommates_insert_stmt)
-    current_app.logger.info(photos_insert_stmt)
+    # # current_app.logger.info(photos_insert_stmt)
     current_app.logger.info(amenities_insert_stmt)
+
+    
+    # Execute the query
+    cursor.execute(ap_units_insert_stmt, ap_units_insert_params)
+    cursor.execute(roommates_insert_stmt, roommates_insert_params)
+    # # cursor.execute(photos_insert_stmt)
+    cursor.execute(amenities_insert_stmt, amenities_insert_params)
+    db.get_db().commit()
+    return 'Success'
+
+
+# Get a list of all the posts in the database and their corresponding information
+@sublessors.route('/posts', methods=['GET'])
+def get_posts():
+
+    # Get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    # Use cursor to query the database for a list of products
+    cursor.execute('SELECT post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out FROM posts')
+
+    # grab the column headers from the returned data
+    column_headers = [x[0] for x in cursor.description]
+
+    # create an empty dictionary object to use in 
+    # putting column headers together with data
+    json_data = []
+
+    # fetch all the data from the cursor
+    theData = cursor.fetchall()
+
+    # for each of the rows, zip the data elements together with
+    # the column headers. 
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+
+    return jsonify(json_data)
+
+# Get information about a specific posts
+@sublessors.route('/posts/<post_id>', methods=['GET'])
+def get_specific_post(post_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
+                    from posts where post_id = {0}'.format(post_id))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+# Get information about a posts under a specified price
+@sublessors.route('/posts/<unit_price>', methods=['GET'])
+def get_inexpensive_posts(unit_price):
+    cursor = db.get_db().cursor()
+    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
+                    from customers where unit_price <= {0}'.format(unit_price))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+
+# Update a sublessor profile in the database
+@sublessors.route('/posts/<post_id>', methods=['PUT'])
+def update_post(post_id):
+
+    # Access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    sbless_id = req_data['sbless_id']
+    post_dscrptn = req_data['post_dscrptn']
+    unit_price = req_data['unit_price']
+    emp_id = req_data['emp_id']
+    street = req_data['street']
+    city = req_data['city']
+    zip_code = req_data['zip_code']
+    move_in = req_data['move_in']
+    move_out = req_data['move_out']
+
+
+    if sbless_id != '': 
+        update_sbless_id = 'UPDATE sublessors SET sbless_id = '  + str(sbless_id)
+        update_sbless_id += 'WHERE sbless_id =' + str(sbless_id)
+
+        current_app.logger.info(update_sbless_id)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_sbless_id)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if post_dscrptn != '': 
+        update_post_dscrptn = 'UPDATE sublessors SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
+        update_post_dscrptn += 'WHERE post_dscrptn =' + post_dscrptn
+
+        current_app.logger.info(update_post_dscrptn)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_post_dscrptn)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if unit_price != '': 
+        update_unit_price = 'UPDATE sublessors SET unit_price = '  + str(unit_price)
+        update_unit_price += 'WHERE unit_price =' + str(unit_price)
+
+        current_app.logger.info(update_unit_price)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_unit_priced)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if emp_id != '': 
+        update_emp_id = 'UPDATE sublessors SET emp_id = '  + str(emp_id)
+        update_emp_id += 'WHERE emp_id =' + str(emp_id)
+
+        current_app.logger.info(update_emp_id)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_emp_id)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if street != '': 
+        update_street = 'UPDATE sublessors SET street = '  + '"' + street + '"' 
+        update_street += 'WHERE street =' + street
+
+        current_app.logger.info(update_street)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_street)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if city != '': 
+        update_city = 'UPDATE sublessors SET city = '  + '"' + city + '"' 
+        update_city += 'WHERE city =' + city
+
+        current_app.logger.info(update_city)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_city)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if zip_code != '': 
+        update_zip_code = 'UPDATE sublessors SET zip_code = '  + '"' + zip_code + '"' 
+        update_zip_code += 'WHERE zip_code =' + zip_code
+
+        current_app.logger.info(update_zip_code)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_zip_code)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if move_in != '': 
+        update_move_in = 'UPDATE sublessors SET move_in = '  + '"' + move_in + '"' 
+        update_move_in += 'WHERE zip_code =' + move_in
+
+        current_app.logger.info(update_move_in)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_move_in)
+        db.get_db().commit()
+
+        return 'Success'
+
+    if move_out != '': 
+        update_move_out = 'UPDATE sublessors SET move_out = '  + '"' + move_out + '"' 
+        update_move_out += 'WHERE move_out =' + move_out
+
+        current_app.logger.info(update_move_out)
+
+        # Execute the query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_move_out)
+        db.get_db().commit()
+
+        return 'Success'
+
+
+
+# Delete a specific post that a sublessor wants to delete
+@sublessors.route('/posts/<post_id>', methods=['DELETE'])
+def delete_specific_post(post_id):
+
+    # Access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    delete_stmt = 'DELETE FROM subletters WHERE sublett_id = ' + str(post_id)
+
+    current_app.logger.info(delete_stmt)
 
     # Execute the query
     cursor = db.get_db().cursor()
-    cursor.execute(posts_insert_stmt)
-    cursor.execute(ap_units_insert_stmt)
-    cursor.execute(roommates_insert_stmt)
-    cursor.execute(photos_insert_stmt)
-    cursor.execute(amenities_insert_stmt)
+    cursor.execute(delete_stmt)
     db.get_db().commit()
+
     return 'Success'
+
+
+# Delete a specific post that a sublessor wants to delete
+@sublessors.route('/posts/<sbless_id>', methods=['DELETE'])
+def delete_posts_by_sbless(sbless_id):
+
+    # Access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    delete_stmt = 'DELETE FROM subletters WHERE sublett_id = ' + str(sbless_id)
+
+    current_app.logger.info(delete_stmt)
+
+    # Execute the query
+    cursor = db.get_db().cursor()
+    cursor.execute(delete_stmt)
+    db.get_db().commit()
+
+    return 'Success'
+
 
 @sublessors.route('/reviews/review_content/<sbless_user>', methods=['GET']) #question about get
 def get_reviews(sbless_user):
