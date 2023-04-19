@@ -80,7 +80,7 @@ def create_message():
     req_data = request.get_json()
     current_app.logger.info(req_data)
 
-    post_id = req_data['post_id']
+    post_id = req_data['post_id_mess']
     sblett_user = req_data['sblett_user']
     sbless_user = req_data['sbless_user']
     content = req_data['content']
