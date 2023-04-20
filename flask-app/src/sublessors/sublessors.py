@@ -223,7 +223,6 @@ def update_lease_profile(lease_id):
 
 
    lease_end_date = req_data['lease_end_date']
-   lease_id = req_data['lease_id']
    lord_id = req_data['lord_id']
    lease_start_date = req_data['lease_start_date']
    rent = req_data['rent']
