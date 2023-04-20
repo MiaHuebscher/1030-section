@@ -56,8 +56,6 @@ def create_post():
     # Execute the query
     cursor.execute(ap_units_insert_stmt, ap_units_insert_params)
     cursor.execute(roommates_insert_stmt, roommates_insert_params)
-    # # cursor.execute(photos_insert_stmt)
-    # cursor.execute(amenities_insert_stmt, amenities_insert_params)
     db.get_db().commit()
     return 'Success'
 
