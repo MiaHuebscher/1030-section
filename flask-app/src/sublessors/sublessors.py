@@ -33,6 +33,7 @@ def create_post():
     roommate_age = req_data['roommate_age']
 
     # Construct the insert statements for each table
+    # The '%s' are placeholders to deal with various value types, including booleans
     posts_insert_stmt = 'INSERT INTO posts \
         (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
     posts_insert_params = (sbless_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out)
@@ -70,7 +71,7 @@ def update_post(post_id):
     current_app.logger.info(req_data)
 
     post_dscrptn = req_data['post_dscrptn2']
-
+     # If the content in the new form is not empty, it will construct a update statement
     if post_dscrptn != '': 
         update_post_dscrptn = 'UPDATE posts SET post_dscrptn = '  + '"' + post_dscrptn + '"' 
         update_post_dscrptn += 'WHERE post_id =' + str(post_id)
@@ -89,6 +90,7 @@ def update_post(post_id):
 @sublessors.route('/posts/<post_id>', methods=['DELETE'])
 def delete_specific_post(post_id):
 
+    # Construct the delete statement
     delete_stmt = 'DELETE FROM posts WHERE post_id = ' + str(post_id)
 
     current_app.logger.info(delete_stmt)
@@ -105,6 +107,7 @@ def delete_specific_post(post_id):
 @sublessors.route('/posts/sublessor/<sbless_id>', methods=['DELETE'])
 def delete_posts_by_sbless(sbless_id):
 
+    # Construct the delete statement
     delete_stmt = 'DELETE FROM posts WHERE sbless_id = ' + str(sbless_id)
 
     current_app.logger.info(delete_stmt)
