@@ -394,5 +394,137 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "8d8ef014-ab67-438b-8890-ef12ee76e8a0",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "post_posts_1",
+    "url": "localhost:8001/sl/posts",
+    "method": "POST",
+    "sortNum": 70000,
+    "created": "2023-04-20T20:03:13.029Z",
+    "modified": "2023-04-20T20:03:46.089Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"sbless_id\" : 2152868,\n  \"post_dscrptn\" : \"Heyy, I live in a 3 bedroom apartment with two other girls who attend Northeastern Universtiy. We are all second-year students and love to hang out with one another and plan fun activities. Our apartment community (Fenway Triangle) has so many great features like a rooftop patio, a game center, a doorman, a fitness center, and so much more! I am going back to my hometown for the summer, so I am looking for a nice, respectful, and cool girl to sublet my space! The move-in date will be 5/10/2023 and the move-out date will be 9/07/2023. DM me for any questions!\",\n  \"unit_price\" : 2500.00,\n  \"emp_id\" : 2,\n  \"street\" : \"180 Brookline St.\",\n  \"city\" : \"Boston\",\n  \"zip_code\" : \"02215\",\n  \"move_in\" : \"2023-05-10\",\n  \"move_out\" : \"2023-09-07\",\n  \"kitchen\" : true,\n  \"living_room\" : true,\n  \"num_bedroom\" : 3,\n  \"num_bathroom\" : 1,\n  \"roommate_gender\" : \"Female\",\n  \"roommate_name\" : \"Lauren Thomas\",\n  \"roommate_age\" : 20\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "78b03fca-37dd-4644-afd0-9c7491e076e2",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "post_posts_2",
+    "url": "localhost:8001/sl/posts",
+    "method": "POST",
+    "sortNum": 80000,
+    "created": "2023-04-20T20:03:55.864Z",
+    "modified": "2023-04-20T20:06:27.991Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"sbless_id\" : 9384944904,\n  \"post_dscrptn\" : \"I have a really nice three bedroom apartment near Northeastern campus that I need to sublet out immediately! Contact me for more information.\",\n  \"unit_price\" : 2000.00,\n  \"emp_id\" : 2,\n  \"street\" : \"Huntington\",\n  \"city\" : \"Boston\",\n  \"zip_code\" : \"02115\",\n  \"move_in\" : \"2023-06-10\",\n  \"move_out\" : \"2023-09-10\",\n  \"kitchen\" : false,\n  \"living_room\" : true,\n  \"num_bedroom\" : 3,\n  \"num_bathroom\" : 1,\n  \"roommate_gender\" : \"Male\",\n  \"roommate_name\" : \"Jon Peters\",\n  \"roommate_age\" : 22\n}\n",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "4831eacf-51d9-4c33-a0d1-df69a6396de7",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "update_posts_1",
+    "url": "localhost:8001/sl/posts/post_dscrptn/1",
+    "method": "PUT",
+    "sortNum": 90000,
+    "created": "2023-04-20T20:06:44.247Z",
+    "modified": "2023-04-20T20:10:06.975Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"post_dscrptn2\" : \"I'm desperate to sublet my place out.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "02c438c6-d30c-434c-8b6f-5ba38b0a10f5",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "update_posts_2",
+    "url": "localhost:8001/sl/posts/post_dscrptn/2",
+    "method": "PUT",
+    "sortNum": 100000,
+    "created": "2023-04-20T20:10:35.271Z",
+    "modified": "2023-04-20T20:11:30.275Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"post_dscrptn2\" : \"Looking for someone to sublet my place! It is right next to Prudential and the T.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "cda8fea5-a6ee-40b8-b58e-f6a07f0a2e6d",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "delete_a_post_1",
+    "url": "localhost:8001/sl/posts/1",
+    "method": "DELETE",
+    "sortNum": 100000,
+    "created": "2023-04-20T20:11:51.775Z",
+    "modified": "2023-04-20T20:12:05.187Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "3280566b-4247-49c2-94ae-9b90ac5b366e",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "delete_a_post_2",
+    "url": "localhost:8001/sl/posts/10",
+    "method": "DELETE",
+    "sortNum": 110000,
+    "created": "2023-04-20T20:12:08.158Z",
+    "modified": "2023-04-20T20:12:17.318Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "86712f5b-b4c9-491c-a353-1597f23947aa",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "delete_all_posts_1",
+    "url": "localhost:8001/sl/posts/sublessor/2152868",
+    "method": "DELETE",
+    "sortNum": 120000,
+    "created": "2023-04-20T20:12:45.624Z",
+    "modified": "2023-04-20T20:13:06.727Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "021adccc-ddb5-4971-8c94-2f47b1577a48",
+    "colId": "50d3cb1c-71d2-4bd7-8bdc-4e104010e4c3",
+    "containerId": "",
+    "name": "delete_all_posts_2",
+    "url": "localhost:8001/sl/posts/sublessor/119891808",
+    "method": "DELETE",
+    "sortNum": 130000,
+    "created": "2023-04-20T20:13:09.333Z",
+    "modified": "2023-04-20T20:15:08.723Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

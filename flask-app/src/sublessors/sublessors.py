@@ -60,68 +60,6 @@ def create_post():
     return 'Success'
 
 
-# Get a list of all the posts in the database and their corresponding information
-@sublessors.route('/posts', methods=['GET'])
-def get_posts():
-
-    # Get a cursor object from the database
-    cursor = db.get_db().cursor()
-
-    # Use cursor to query the database for a list of products
-    cursor.execute('SELECT post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out FROM posts')
-
-    # grab the column headers from the returned data
-    column_headers = [x[0] for x in cursor.description]
-
-    # create an empty dictionary object to use in 
-    # putting column headers together with data
-    json_data = []
-
-    # fetch all the data from the cursor
-    theData = cursor.fetchall()
-
-    # for each of the rows, zip the data elements together with
-    # the column headers. 
-    for row in theData:
-        json_data.append(dict(zip(column_headers, row)))
-
-    return jsonify(json_data)
-
-
-# Get information about a specific posts
-@sublessors.route('/posts/<post_id>', methods=['GET'])
-def get_specific_post(post_id):
-    cursor = db.get_db().cursor()
-    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
-                    from posts where post_id = {0}'.format(post_id))
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
-
-
-# Get information about a posts under a specified price
-@sublessors.route('/posts/<unit_price>', methods=['GET'])
-def get_inexpensive_posts(unit_price):
-    cursor = db.get_db().cursor()
-    cursor.execute('select post_id, post_dscrptn, unit_price, emp_id, street, city, zip_code, move_in, move_out \
-                    from customers where unit_price <= {0}'.format(unit_price))
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
-
-
 # Update a specific post content in the database
 @sublessors.route('/posts/post_dscrptn/<post_id>', methods=['PUT'])
 def update_post(post_id):
