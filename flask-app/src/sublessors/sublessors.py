@@ -249,7 +249,6 @@ def create_sublessor_lease(sbless_id):
 
 
    lease_end_date = req_data['lease_end_date']
-   lease_id = req_data['lease_id']
    lord_id = req_data['lord_id']
    lease_start_date = req_data['lease_start_date']
    rent = req_data['rent']
@@ -257,8 +256,8 @@ def create_sublessor_lease(sbless_id):
 
    # Construct the insert statement
    insert_stmt = 'INSERT INTO leases (lease_end_date, lease_id,lord_id, lease_start_date, rent, sbless_id) VALUES ('
-   insert_stmt += str(lease_end_date) + ', "' + lease_id + '", ' + lord_id + ', "' + str(lease_start_date)
-   + ', "' + rent + ', "' + sbless_id + '")'
+   insert_stmt += str(lease_end_date) + '", ' + str(lord_id) + ', "' + str(lease_start_date)
+   + ', "' + str(rent) + ', "' + str(sbless_id) + '")'
 
 
    current_app.logger.info(insert_stmt)
