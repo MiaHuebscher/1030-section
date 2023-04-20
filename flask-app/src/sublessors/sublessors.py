@@ -288,8 +288,8 @@ def create_sublessor_profile():
 
 
    # Construct the insert statement
-   insert_stmt = 'INSERT INTO sublessors (sbless_user, sbless_id, sbless_gender, sbless_age) VALUES ('
-   insert_stmt += sbless_user + ', "' + sbless_id + '", ' + sbless_gender + ', "' + sbless_age + '")'
+   insert_stmt = 'INSERT INTO sublessors (sbless_user, sbless_id, sbless_gender, sbless_age) VALUES ("'
+   insert_stmt += sbless_user + '", ' + str(sbless_id) + ', "' + sbless_gender + '", ' + str(sbless_age) + ')'
 
 
    current_app.logger.info(insert_stmt)
