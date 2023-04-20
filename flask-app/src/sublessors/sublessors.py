@@ -222,7 +222,7 @@ def update_lease_profile(lease_id):
    current_app.logger.info(req_data)
 
 
-   lease_end_date = req_data['lease_end_date']
+   lease_end_date = req_data['lease_end_date2']
 
 
    update_lease_end_date = 'UPDATE leases SET lease_end_date = ' + '"' + lease_end_date + '"'
