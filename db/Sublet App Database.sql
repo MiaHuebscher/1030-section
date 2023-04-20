@@ -2,7 +2,6 @@
 create database Sublet;
 use Sublet;
 
-select * from posts;
 
 # Create the tables of the database
 create table sublessors (
